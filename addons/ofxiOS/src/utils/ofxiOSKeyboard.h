@@ -22,6 +22,7 @@
 	int						_xOriginal;
 	int						_yOriginal;
 	int						fieldLength;
+	ofEvent<void>			eventReturnClicked;
 }
 - (id) init: (int)x y:(int)y width:(int)w height:(int)h;
 - (void) showText;
@@ -40,6 +41,8 @@
 - (void) makeSecure;
 - (void) setFieldLength: (int)len;
 - (UITextField *)getTextField;
+- (ofEvent<void>&) getReturnClickedEvent;
+
 
 @end
 
@@ -73,6 +76,8 @@ public:
 	
     UITextField * getKeyboardTextField();
 	
+	ofEvent<void>& getReturnEvent();
+
 protected:
 	
 	ofxiOSKeyboardDelegate *	keyboard;

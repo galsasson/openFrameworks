@@ -155,6 +155,11 @@ UITextField * ofxiOSKeyboard::getKeyboardTextField() {
     return [keyboard getTextField];
 }
 
+ofEvent<void>& ofxiOSKeyboard::getReturnEvent()
+{
+	return [keyboard getReturnClickedEvent];
+}
+
 // CLASS IMPLEMENTATIONS--------------objc------------------------
 //----------------------------------------------------------------
 @implementation ofxiOSKeyboardDelegate
@@ -181,7 +186,9 @@ UITextField * ofxiOSKeyboard::getKeyboardTextField() {
 {
 	//Terminate editing
 	[textField resignFirstResponder];
-	
+
+	ofNotifyEvent(eventReturnClicked);
+
 	return YES;
 }
 
@@ -410,6 +417,11 @@ UITextField * ofxiOSKeyboard::getKeyboardTextField() {
 - (void) setFieldLength: (int)len
 {
 	fieldLength = len;
+}
+
+- (ofEvent<void>&) getReturnClickedEvent
+{
+	return eventReturnClicked;
 }
 
 //--------------------------------------------------------------
