@@ -196,6 +196,12 @@
 	ofxiOSAlerts.lostFocus();
 }
 
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+	[ofxiOSGetGLView() stopAnimation];
+
+	ofxiOSAlerts.lostFocus();
+}
+
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     [ofxiOSGetGLView() startAnimation];
 	
