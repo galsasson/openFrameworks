@@ -141,6 +141,11 @@ void ofxiOSKeyboard::openKeyboard()
 	[keyboard openKeyboard];
 }
 
+void ofxiOSKeyboard::closeKeyboard()
+{
+	[keyboard closeKeyboard];
+}
+
 bool ofxiOSKeyboard::isKeyboardShowing()
 {
 	return [keyboard isKeyboardShowing];
@@ -241,7 +246,15 @@ ofEvent<void>& ofxiOSKeyboard::getReturnEvent()
 		[_textField setTextColor:[UIColor whiteColor]];
 		[_textField setFont:[UIFont fontWithName:@"Helvetica" size:16]];
 		[_textField setPlaceholder:@""];	
-		
+
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
+
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
+
 		fieldLength = -1;
 	}
 	return self;
@@ -419,11 +432,6 @@ ofEvent<void>& ofxiOSKeyboard::getReturnEvent()
 	fieldLength = len;
 }
 
-- (ofEvent<void>&) getReturnClickedEvent
-{
-	return eventReturnClicked;
-}
-
 //--------------------------------------------------------------
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
@@ -448,9 +456,88 @@ ofEvent<void>& ofxiOSKeyboard::getReturnEvent()
 {
 	[_textField becomeFirstResponder];
 }
+
+- (void) closeKeyboard
+{
+	[_textField resignFirstResponder];
+}
 //--------------------------------------------------------------
 - (UITextField *)getTextField {
     return _textField;
 }
+
+//--------------------------------------------------------------
+
+- (ofEvent<void>&) getReturnClickedEvent
+{
+	return eventReturnClicked;
+}
+
+- (ofEvent<ofxiOSKeyboardMoveEventArgs>&) getWillShowEvent
+{
+	return eventWillShow;
+}
+- (ofEvent<ofxiOSKeyboardMoveEventArgs>&) getDidShowEvent
+{
+	return eventDidShow;
+}
+- (ofEvent<ofxiOSKeyboardMoveEventArgs>&) getWillHideEvent
+{
+	return eventWillHide;
+}
+- (ofEvent<ofxiOSKeyboardMoveEventArgs>&) getDidHideEvent
+{
+	return eventDidHide;
+}
+
+
+- (void) keyboardWillShow:(NSNotification *)aNotification
+{
+	NSDictionary* info = [aNotification userInfo];
+	CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+
+	ofxiOSKeyboardMoveEventArgs args;
+	args.width = kbSize.width;
+	args.height = kbSize.height;
+
+	ofNotifyEvent(eventWillShow, args);
+}
+
+- (void) keyboardDidShow:(NSNotification *)aNotification
+{
+	NSDictionary* info = [aNotification userInfo];
+	CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+
+	ofxiOSKeyboardMoveEventArgs args;
+	args.width = kbSize.width;
+	args.height = kbSize.height;
+
+	ofNotifyEvent(eventDidShow, args);
+}
+
+- (void) keyboardWillHide:(NSNotification *)aNotification
+{
+	NSDictionary* info = [aNotification userInfo];
+	CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+
+	ofxiOSKeyboardMoveEventArgs args;
+	args.width = kbSize.width;
+	args.height = kbSize.height;
+
+	ofNotifyEvent(eventWillHide, args);
+}
+
+- (void) keyboardDidHide:(NSNotification *)aNotification
+{
+	NSDictionary* info = [aNotification userInfo];
+	CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+
+	ofxiOSKeyboardMoveEventArgs args;
+	args.width = kbSize.width;
+	args.height = kbSize.height;
+
+	ofNotifyEvent(eventDidHide, args);
+}
+
 
 @end

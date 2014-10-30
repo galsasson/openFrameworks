@@ -11,6 +11,12 @@
 #import "ofxiOSExtras.h"
 #pragma once
 
+struct ofxiOSKeyboardMoveEventArgs
+{
+	float width;
+	float height;
+};
+
 @interface ofxiOSKeyboardDelegate : NSObject <UITextFieldDelegate>
 {
 	UITextField*			_textField;
@@ -23,6 +29,10 @@
 	int						_yOriginal;
 	int						fieldLength;
 	ofEvent<void>			eventReturnClicked;
+	ofEvent<ofxiOSKeyboardMoveEventArgs> eventWillShow;
+	ofEvent<ofxiOSKeyboardMoveEventArgs> eventDidShow;
+	ofEvent<ofxiOSKeyboardMoveEventArgs> eventWillHide;
+	ofEvent<ofxiOSKeyboardMoveEventArgs> eventDidHide;
 }
 - (id) init: (int)x y:(int)y width:(int)w height:(int)h;
 - (void) showText;
@@ -37,11 +47,21 @@
 - (void) setFrame: (CGRect) rect;
 - (void) setPlaceholder: (NSString *)text;
 - (void) openKeyboard;
+- (void) closeKeyboard;
 - (void) updateOrientation;
 - (void) makeSecure;
 - (void) setFieldLength: (int)len;
 - (UITextField *)getTextField;
+
 - (ofEvent<void>&) getReturnClickedEvent;
+- (ofEvent<ofxiOSKeyboardMoveEventArgs>&) getWillShowEvent;
+- (ofEvent<ofxiOSKeyboardMoveEventArgs>&) getDidShowEvent;
+- (ofEvent<ofxiOSKeyboardMoveEventArgs>&) getWillHideEvent;
+- (ofEvent<ofxiOSKeyboardMoveEventArgs>&) getDidHideEvent;
+- (void) keyboardWillShow: (NSNotification*)aNotification;
+- (void) keyboardDidShow: (NSNotification*)aNotification;
+- (void) keyboardWillHide: (NSNotification*)aNotification;
+- (void) keyboardDidHide: (NSNotification*)aNotification;
 
 
 @end
@@ -66,6 +86,7 @@ public:
 	void setText(string _text);
 	void setPlaceholder(string _text);
 	void openKeyboard();
+	void closeKeyboard();
 	void updateOrientation();
 	void makeSecure();
 	void setMaxChars(int max);
