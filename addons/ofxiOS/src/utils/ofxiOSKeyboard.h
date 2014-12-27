@@ -98,6 +98,10 @@ public:
     UITextField * getKeyboardTextField();
 	
 	ofEvent<void>& getReturnEvent();
+	ofEvent<ofxiOSKeyboardMoveEventArgs>& getWillShowEvent();
+	ofEvent<ofxiOSKeyboardMoveEventArgs>& getDidShowEvent();
+	ofEvent<ofxiOSKeyboardMoveEventArgs>& getWillHideEvent();
+	ofEvent<ofxiOSKeyboardMoveEventArgs>& getDidHideEvent();
 
 protected:
 	

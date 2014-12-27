@@ -160,9 +160,27 @@ UITextField * ofxiOSKeyboard::getKeyboardTextField() {
     return [keyboard getTextField];
 }
 
+
 ofEvent<void>& ofxiOSKeyboard::getReturnEvent()
 {
 	return [keyboard getReturnClickedEvent];
+}
+
+ofEvent<ofxiOSKeyboardMoveEventArgs>& ofxiOSKeyboard::getWillShowEvent()
+{
+	return [keyboard getWillShowEvent];
+}
+ofEvent<ofxiOSKeyboardMoveEventArgs>& ofxiOSKeyboard::getDidShowEvent()
+{
+	return [keyboard getDidShowEvent];
+}
+ofEvent<ofxiOSKeyboardMoveEventArgs>& ofxiOSKeyboard::getWillHideEvent()
+{
+	return [keyboard getWillHideEvent];
+}
+ofEvent<ofxiOSKeyboardMoveEventArgs>& ofxiOSKeyboard::getDidHideEvent()
+{
+	return [keyboard getDidHideEvent];
 }
 
 // CLASS IMPLEMENTATIONS--------------objc------------------------
