@@ -1428,12 +1428,14 @@ void ofGLProgrammableRenderer::drawString(string textString, float x, float y, f
 #ifdef TARGET_OPENGLES
 static string vertex_shader_header =
 		"precision mediump float;\n"
+		"precision lowp sampler2DRect;\n"
 		"#define IN attribute\n"
 		"#define OUT varying\n"
 		"#define TEXTURE texture2D\n"
 		"#define TARGET_OPENGLES\n";
 static string fragment_shader_header =
 		"precision mediump float;\n"
+		"precision lowp sampler2DRect;\n"
 		"#define IN varying\n"
 		"#define OUT\n"
 		"#define TEXTURE texture2D\n"
@@ -1520,8 +1522,10 @@ static string defaultFragmentShaderTexRectNoColor = fragment_shader_header + STR
 
 static string alphaMaskFragmentShaderTexRectNoColor = fragment_shader_header + STRINGIFY(
 
-	uniform sampler2DRect src_tex_unit0;
-	uniform sampler2DRect src_tex_unit1;
+//	uniform sampler2DRect src_tex_unit0;
+//	uniform sampler2DRect src_tex_unit1;
+	uniform sampler2D src_tex_unit0;
+	uniform sampler2D src_tex_unit1;
 	uniform float usingTexture;
 	uniform float usingColors;
 	uniform vec4 globalColor;
@@ -1698,7 +1702,7 @@ static string uniqueVertexShader = vertex_shader_header + STRINGIFY(
 
 // ----------------------------------------------------------------------
 static string uniqueFragmentShader = fragment_shader_header + STRINGIFY(
-        
+
 	uniform sampler2D src_tex_unit0;
 	uniform float usingTexture;
 	uniform float bitmapText;
