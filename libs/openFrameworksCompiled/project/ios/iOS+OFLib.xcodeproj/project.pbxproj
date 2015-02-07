@@ -1187,6 +1187,8 @@
 				PRODUCT_NAME = "ofxiOS_${PLATFORM_NAME}_Debug";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 2;
+				VALID_ARCHS = "armv7 i386";
 			};
 			name = Debug;
 		};
@@ -1211,6 +1213,8 @@
 				PRODUCT_NAME = "ofxiOS_${PLATFORM_NAME}_Release";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 2;
+				VALID_ARCHS = "armv7 i386";
 				ZERO_LINK = NO;
 			};
 			name = Release;
