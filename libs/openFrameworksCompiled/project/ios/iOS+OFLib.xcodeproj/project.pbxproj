@@ -1220,7 +1220,7 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 2;
-				VALID_ARCHS = "armv7 i386";
+				VALID_ARCHS = "armv7 i386 arm64";
 			};
 			name = Debug;
 		};
@@ -1247,7 +1247,7 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 2;
-				VALID_ARCHS = "armv7 i386";
+				VALID_ARCHS = "armv7 i386 arm64";
 				ZERO_LINK = NO;
 			};
 			name = Release;
