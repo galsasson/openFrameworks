@@ -755,7 +755,10 @@ ofVec3f ofPolyline::getRightVector() const {
 
 //--------------------------------------------------
 float ofPolyline::getIndexAtLength(float length) const {
-    if(points.size() < 2) return 0;
+	if(points.size() < 2 || length == 0) {
+		return 0;
+	}
+
     updateCache();
     
     float totalLength = getPerimeter();
