@@ -17,10 +17,12 @@
 #define OFX_IMG_PICKER_LEFT 3
 #define OFX_IMG_PICKER_RIGHT 4
 
-class canLoadPixels
+class cppImagePicker
 {
 public:
 	virtual void loadPixels() = 0;
+	ofEvent<void> eventImageSelected;
+	ofEvent<void> eventImageSelectionCancelled;
 };
 
 //----------------------------------------------------------- overlay.
@@ -42,10 +44,10 @@ public:
 	bool								savedPhotosIsAvailable;
 	int									maxDimension;
 	
-	canLoadPixels *						cppPixelLoader;
+	cppImagePicker *					cppImagePicker;
 }
 
-- (id) initWithPicker:(canLoadPixels *) _picker;
+- (id) initWithPicker:(cppImagePicker *) _picker;
 
 - (void) imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo;
 
@@ -83,7 +85,7 @@ public:
 #define ofxiPhoneImagePickerDelegate ofxiOSImagePickerDelegate
 
 
-class ofxiOSImagePicker : public canLoadPixels
+class ofxiOSImagePicker : public cppImagePicker
 {
 	
 public:

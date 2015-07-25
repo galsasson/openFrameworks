@@ -134,7 +134,7 @@ void ofxiOSImagePicker::loadPixels()
     CGContextRelease(photoContext);
 
 	imageUpdated = true;
-	
+	ofNotifyEvent(eventImageSelected);
 }
 //----------------------------------------------------------------
 void ofxiOSImagePicker::saveImage()
@@ -174,7 +174,7 @@ bool ofxiOSImagePicker::getImageUpdated(){
 //----------------------------------------------------------------
 @implementation ofxiOSImagePickerDelegate
 
-- (id) initWithPicker:(canLoadPixels *) _picker
+- (id) initWithPicker:(cppImagePicker *) _picker
 {
 	if(self = [super init])
 	{
@@ -203,7 +203,7 @@ bool ofxiOSImagePicker::getImageUpdated(){
             }
         }
 	
-		cppPixelLoader = _picker;
+		cppImagePicker = _picker;
 	}
 	return self;
 }
@@ -226,7 +226,7 @@ bool ofxiOSImagePicker::getImageUpdated(){
         overlay = nil;
     }
     
-    cppPixelLoader = NULL;
+    cppImagePicker = NULL;
 	
 	[super dealloc];
 }
@@ -237,14 +237,14 @@ bool ofxiOSImagePicker::getImageUpdated(){
                    editingInfo:(NSDictionary *)editingInfo {
     
     _image = [[self scaleAndRotateImage:image] retain];
-	cppPixelLoader->loadPixels();
+	cppImagePicker->loadPixels();
 }
 
 - (void) imagePickerController:(UIImagePickerController *)picker 
  didFinishPickingMediaWithInfo:(NSDictionary *)info {
 
     _image = [[self scaleAndRotateImage:[info objectForKey:UIImagePickerControllerOriginalImage]] retain];
-	cppPixelLoader->loadPixels();
+	cppImagePicker->loadPixels();
 }
 
 //--------------------------------------------------------------
@@ -255,6 +255,7 @@ bool ofxiOSImagePicker::getImageUpdated(){
 //--------------------------------------------------------------
 - (void) imagePickerControllerDidCancel:(UIImagePickerController *)picker {
 	[self close];
+	ofNotifyEvent(cppImagePicker->eventImageSelectionCancelled);
 }
 
 //--------------------------------------------------------------
