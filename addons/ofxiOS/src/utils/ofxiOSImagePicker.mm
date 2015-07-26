@@ -82,7 +82,7 @@ void ofxiOSImagePicker::clear() {
 }
 
 //----------------------------------------------------------------
-int ofxiOSImagePicker::getOrientation()
+int ofxiOSImagePicker::getImageOrientation()
 {
 	switch( [imagePicker getImageOrientation] )
 	{
@@ -105,6 +105,33 @@ int ofxiOSImagePicker::getOrientation()
 	}
 }
 
+void ofxiOSImagePicker::setPosition(float x, float y)
+{
+	imagePicker->_imagePicker.view.transform = CGAffineTransformMakeTranslation(x, y);
+}
+
+void ofxiOSImagePicker::setViewBounds(float x, float y, float w, float h)
+{
+	[imagePicker->_imagePicker.view setBounds:CGRectMake(x, y, w, h)];
+	[imagePicker->_imagePicker.view setNeedsLayout];
+	[imagePicker->_imagePicker.view setNeedsUpdateConstraints];
+}
+
+void ofxiOSImagePicker::setViewScale(float sx, float sy)
+{
+	imagePicker->_imagePicker.view.transform = CGAffineTransformMakeScale(sx, sy);
+}
+
+void ofxiOSImagePicker::setViewTransform(float a, float b, float c, float d, float tx, float ty)
+{
+	imagePicker->_imagePicker.view.transform = CGAffineTransformMake(a, b, c, d, tx, ty);
+}
+
+void ofxiOSImagePicker::setAlpha(float alpha)
+{
+	imagePicker->_imagePicker.view.alpha = alpha;
+}
+
 void ofxiOSImagePicker::takePicture()
 {
 	[imagePicker takePicture];
@@ -122,7 +149,7 @@ void ofxiOSImagePicker::loadPixels()
         ofLogError("ofxiOSImagePicker::loadPixels") << " photo is NULL " << endl;
         return;
     }
-    
+
     pixels.allocate(CGImageGetWidth(photo), CGImageGetHeight(photo), 4);
     int width = pixels.getWidth();
     int height = pixels.getHeight();
@@ -202,7 +229,7 @@ bool ofxiOSImagePicker::getImageUpdated(){
                 _imagePicker.view.transform = CGAffineTransformMakeRotation(PI);
             }
         }
-	
+
 		cppImagePicker = _picker;
 	}
 	return self;
@@ -266,7 +293,7 @@ bool ofxiOSImagePicker::getImageUpdated(){
 
 //--------------------------------------------------------------
 - (BOOL) openCamera:(int)camera {
-	if(cameraIsAvailable) {		
+	if(cameraIsAvailable) {
 		_imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
 		if(camera == 0) {
 			_imagePicker.cameraDevice = UIImagePickerControllerCameraDeviceRear;
@@ -279,7 +306,6 @@ bool ofxiOSImagePicker::getImageUpdated(){
 		}
 
 		[[[UIApplication sharedApplication] keyWindow] addSubview:_imagePicker.view];
-		
 		return true;
 	} else {
 		return false;
@@ -351,7 +377,8 @@ bool ofxiOSImagePicker::getImageUpdated(){
     _imagePicker.cameraViewTransform = cameraViewTransform;
     _imagePicker.cameraOverlayView = overlay;
     [[[UIApplication sharedApplication] keyWindow] addSubview:_imagePicker.view];
-    
+
+
     return YES;
 }
 

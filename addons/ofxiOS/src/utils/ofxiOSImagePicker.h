@@ -36,7 +36,7 @@ public:
 @interface ofxiOSImagePickerDelegate : NSObject <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 {
 
-	UIImagePickerController*			_imagePicker;
+	@public UIImagePickerController*			_imagePicker;
 	OverlayView *						overlay;
 	UIImage*							_image;
 	bool								cameraIsAvailable;
@@ -92,7 +92,7 @@ public:
 	
 	ofxiOSImagePicker();
 	~ofxiOSImagePicker();
-	
+
 	bool openCamera(int camera=0); // 0 for rear, 1 for front
 	bool openLibrary();
     
@@ -109,8 +109,14 @@ public:
 	bool savedPhotosIsAvailable;
 	
 	void setMaxDimension(int _maxDimension); //images that you take with the camera will be too big to properly get into an ofImage (im not sure why). It's good to set a maximum dimension for the images under 1000
-	int getOrientation();
-	
+	int getImageOrientation();
+
+	void setPosition(float x, float y);
+	void setViewBounds(float x, float y, float w, float h);
+	void setViewScale(float sx, float sy);
+	void setViewTransform(float a, float b, float c, float d, float tx, float ty);
+	void setAlpha(float alpha);
+
 	void saveImage(); //this doesn't quite work right now and i'm not sure why.
 	
 	void takePicture();
