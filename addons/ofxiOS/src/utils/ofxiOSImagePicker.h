@@ -79,6 +79,8 @@ public:
 
 - (UIImage *) getUIImage;
 - (UIImage *)scaleAndRotateImage:(UIImage *)image;
+- (UIImage *)scaleAndRotateImage_old:(UIImage *)image;
+
 
 @end
 
