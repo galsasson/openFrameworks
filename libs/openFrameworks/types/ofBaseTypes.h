@@ -770,6 +770,10 @@ public:
 	virtual void drawGridPlane(float stepSize, size_t numberOfSteps, bool labels) const;
 	virtual void drawArrow(const ofVec3f& start, const ofVec3f& end, float headSize) const;
 	virtual void drawRotationAxes(float radius, float stripWidth, int circleRes) const;
+
+#ifdef ADD_OF_PATCH_FOR_NANOVG
+	virtual void setCurrentShaderDirty() { }
+#endif
 };
 
 class ofBaseGLRenderer: public ofBaseRenderer{
