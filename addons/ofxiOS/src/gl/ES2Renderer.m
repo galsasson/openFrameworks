@@ -112,7 +112,13 @@
 		glRenderbufferStorageMultisampleAPPLE(GL_RENDERBUFFER, fsaaSamples, GL_RGB5_A1, backingWidth, backingHeight);
 		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, fsaaColorRenderBuffer);
 	}
-	
+
+#ifdef CREATE_STENCIL_BUFFER
+	glGenRenderbuffers(1, &depthStencilRenderbuffer);
+	glBindRenderbuffer(GL_RENDERBUFFER, depthStencilRenderbuffer);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8_OES, backingWidth, backingHeight);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, depthStencilRenderbuffer);
+#else
 	if(depthEnabled) {
 		if(!depthRenderbuffer) {
 			glGenRenderbuffers(1, &depthRenderbuffer);
@@ -128,7 +134,7 @@
 			glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderbuffer);
 		}
 	}
-    
+#endif
     if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
         NSLog(@"Failed to make complete framebuffer object %x %ix%i", glCheckFramebufferStatus(GL_FRAMEBUFFER), backingWidth, backingHeight);
         return NO;
